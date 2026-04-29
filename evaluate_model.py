@@ -35,11 +35,11 @@ label_mapping = {
 df['medical_specialty'] = df['medical_specialty'].map(label_mapping)
 df = df.dropna(subset=['medical_specialty'])
 
-# 3. Balance Data (Bulletproof Fix)
-# We loop manually to avoid Pandas errors
+# 3. Balance Data
+
 dfs = []
 for specialty, group in df.groupby('medical_specialty'):
-    # Sample up to 100 rows per specialty so big classes don't dominate
+   
     dfs.append(group.sample(min(len(group), 100))) 
 
 df = pd.concat(dfs).reset_index(drop=True)
@@ -54,8 +54,7 @@ print(f"Training High-Performance SVC on {len(X_train)} samples...")
 
 # 5. Define The "High Accuracy" Pipeline
 # - TF-IDF with (1,2) grams learns phrases like "chest pain"
-# - LinearSVC is powerful for text classification
-# - CalibratedClassifierCV allows us to get probability scores later
+
 vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2), max_features=5000)
 classifier = CalibratedClassifierCV(LinearSVC(dual="auto", class_weight='balanced'))
 

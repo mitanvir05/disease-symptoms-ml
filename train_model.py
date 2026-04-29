@@ -9,7 +9,7 @@ from sklearn.model_selection import GridSearchCV
 import scipy.sparse
 
 # 1. Advanced Text Cleaning Function
-# This removes "noise" like numbers and punctuation to help the model focus on medical keywords.
+
 def clean_medical_text(text):
     if not isinstance(text, str):
         return ""
@@ -82,8 +82,7 @@ grid.fit(X, y)
 print(f"Best Accuracy found in Search: {grid.best_score_:.4f}")
 
 # --- Final Calibration ---
-# We use the best found model and wrap the SVC in CalibratedClassifierCV
-# to ensure the 'predict_proba' method works for your confidence scores.
+
 best_params = grid.best_params_
 print(f"Best Parameters: {best_params}")
 
